@@ -37,14 +37,6 @@ export function useAudioSynchronizer() {
       const audio = new Audio();
       
       // Set up event listeners before setting src
-      audio.addEventListener('loadstart', () => {
-        console.log('Loading started for:', character.name);
-      });
-      
-      audio.addEventListener('canplay', () => {
-        console.log('Audio can play for:', character.name);
-      });
-      
       audio.addEventListener('canplaythrough', async () => {
         console.log('Audio loaded and can play through for:', character.name);
         try {
@@ -52,18 +44,13 @@ export function useAudioSynchronizer() {
           console.log('Started playing audio for:', character.name);
         } catch (playError) {
           console.error('Error playing audio for:', character.name, playError);
-          toast.error(`Failed to play audio for ${character.name}: ${playError.message}`);
+          toast.error(`Failed to play audio for ${character.name}`);
         }
       });
       
       audio.addEventListener('error', (e) => {
         console.error(`Audio error for ${character.name}:`, e);
-        console.error('Audio error details:', audio.error);
-        if (audio.error) {
-          console.error('Error code:', audio.error.code);
-          console.error('Error message:', audio.error.message);
-        }
-        toast.error(`Audio error for ${character.name}: Unable to load audio file`);
+        toast.error(`Audio error for ${character.name}`);
         
         // Remove from map on error
         setAudioMap(prev => {
@@ -73,26 +60,20 @@ export function useAudioSynchronizer() {
         });
       });
       
-      audio.addEventListener('loadeddata', () => {
-        console.log('Audio data loaded for:', character.name);
-      });
-      
       // Set audio properties
       audio.loop = true;
       audio.volume = 0.7;
       audio.preload = 'auto';
+      audio.src = character.audioTrack;
       
-      // Add to map before setting src
+      // Add to map
       setAudioMap(prev => new Map(prev.set(character.id, audio)));
       
-      // Set src and load
-      console.log('Setting audio src to:', character.audioTrack);
-      audio.src = character.audioTrack;
-      audio.load();
+      console.log('Audio element created and added to map for:', character.name);
       
     } catch (error) {
       console.error('Error creating audio for:', character.name, error);
-      toast.error(`Error creating audio for ${character.name}: ${error.message}`);
+      toast.error(`Error creating audio for ${character.name}`);
     }
   };
   
@@ -102,17 +83,9 @@ export function useAudioSynchronizer() {
     const audio = audioMap.get(characterId);
     if (audio) {
       try {
-        // Pause and stop the audio completely
-        if (!audio.paused) {
-          audio.pause();
-        }
-        
-        // Reset to beginning
+        // Simply pause and remove from map
+        audio.pause();
         audio.currentTime = 0;
-        
-        // Clear the source to fully stop playback
-        audio.src = '';
-        audio.load();
         
         console.log('Successfully stopped audio for character ID:', characterId);
       } catch (error) {
@@ -149,9 +122,6 @@ export function useAudioSynchronizer() {
       audioMap.forEach((audio, characterId) => {
         try {
           audio.pause();
-          audio.currentTime = 0;
-          audio.src = '';
-          audio.load();
         } catch (error) {
           console.error('Error during cleanup for character:', characterId, error);
         }
