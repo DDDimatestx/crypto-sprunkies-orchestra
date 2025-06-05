@@ -104,7 +104,7 @@ export function useAudioSynchronizer() {
       try {
         audio.pause();
         audio.currentTime = 0;
-        audio.src = '';
+        // Don't set src to empty string as it causes errors
         console.log('Stopped audio for character ID:', characterId);
       } catch (error) {
         console.error('Error stopping audio:', error);
@@ -137,7 +137,7 @@ export function useAudioSynchronizer() {
         try {
           audio.pause();
           audio.currentTime = 0;
-          audio.src = '';
+          // Don't clear src during cleanup to avoid errors
         } catch (error) {
           console.error('Error during cleanup for character:', characterId, error);
         }
