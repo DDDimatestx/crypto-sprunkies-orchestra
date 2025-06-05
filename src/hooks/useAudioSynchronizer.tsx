@@ -102,10 +102,20 @@ export function useAudioSynchronizer() {
     const audio = audioMap.get(characterId);
     if (audio) {
       try {
+        // Pause the audio
         audio.pause();
+        
+        // Reset to beginning
         audio.currentTime = 0;
-        // Don't set src to empty string as it causes errors
-        console.log('Stopped audio for character ID:', characterId);
+        
+        // Remove all event listeners to prevent memory leaks
+        audio.removeEventListener('loadstart', () => {});
+        audio.removeEventListener('canplay', () => {});
+        audio.removeEventListener('canplaythrough', () => {});
+        audio.removeEventListener('error', () => {});
+        audio.removeEventListener('loadeddata', () => {});
+        
+        console.log('Successfully stopped and cleaned audio for character ID:', characterId);
       } catch (error) {
         console.error('Error stopping audio:', error);
       }
@@ -116,6 +126,8 @@ export function useAudioSynchronizer() {
         newMap.delete(characterId);
         return newMap;
       });
+    } else {
+      console.log('No audio found for character ID:', characterId);
     }
   };
   
@@ -137,7 +149,6 @@ export function useAudioSynchronizer() {
         try {
           audio.pause();
           audio.currentTime = 0;
-          // Don't clear src during cleanup to avoid errors
         } catch (error) {
           console.error('Error during cleanup for character:', characterId, error);
         }
