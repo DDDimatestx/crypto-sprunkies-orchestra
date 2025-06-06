@@ -1,11 +1,11 @@
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Character } from '../types';
 import { toast } from '@/components/ui/sonner';
 
 export function useAudioSynchronizer() {
   const [audioMap, setAudioMap] = useState<Map<string, HTMLAudioElement>>(new Map());
   const [isInitialized, setIsInitialized] = useState(false);
+  const audioMapRef = useRef<Map<string, HTMLAudioElement>>(new Map());
 
   // Initialize audio context on first user interaction
   useEffect(() => {
@@ -22,6 +22,11 @@ export function useAudioSynchronizer() {
       events.forEach(event => document.removeEventListener(event, initAudio));
     };
   }, [isInitialized]);
+
+  // Keep a ref to the current audioMap to use in event listeners
+  useEffect(() => {
+    audioMapRef.current = audioMap;
+  }, [audioMap]);
 
   const addTrack = async (character: Character) => {
     console.log('Adding track for character:', character.name, 'with audio:', character.audioTrack);
@@ -64,10 +69,12 @@ export function useAudioSynchronizer() {
       audio.loop = true;
       audio.volume = 0.7;
       audio.preload = 'auto';
-      audio.src = character.audioTrack;
       
-      // Add to map
+      // Add to map first, then set src to avoid race conditions
       setAudioMap(prev => new Map(prev.set(character.id, audio)));
+      
+      // Now set the source
+      audio.src = character.audioTrack;
       
       console.log('Audio element created and added to map for:', character.name);
       
@@ -80,11 +87,19 @@ export function useAudioSynchronizer() {
   const removeTrack = (characterId: string) => {
     console.log('Removing track for character ID:', characterId);
     
-    const audio = audioMap.get(characterId);
+    // Use the ref to get the current audio map
+    const audio = audioMapRef.current.get(characterId);
     if (audio) {
       try {
-        // Simply pause and remove from map
+        // First pause the audio
         audio.pause();
+        
+        // Then remove all event listeners to prevent future callbacks
+        audio.oncanplaythrough = null;
+        audio.onerror = null;
+        audio.onended = null;
+        
+        // Reset the audio element
         audio.currentTime = 0;
         
         console.log('Successfully stopped audio for character ID:', characterId);
@@ -105,9 +120,12 @@ export function useAudioSynchronizer() {
   
   const setVolume = (volume: number) => {
     console.log('Setting volume to:', volume);
-    audioMap.forEach((audio, characterId) => {
+    
+    // Use the ref to get the current audio map
+    audioMapRef.current.forEach((audio, characterId) => {
       try {
-        audio.volume = Math.max(0, Math.min(1, volume));
+        const safeVolume = Math.max(0, Math.min(1, volume));
+        audio.volume = safeVolume;
         console.log('Volume set for character:', characterId, 'to:', audio.volume);
       } catch (error) {
         console.error('Error setting volume for character:', characterId, error);
@@ -119,15 +137,16 @@ export function useAudioSynchronizer() {
   useEffect(() => {
     return () => {
       console.log('Cleaning up audio synchronizer');
-      audioMap.forEach((audio, characterId) => {
+      audioMapRef.current.forEach((audio, characterId) => {
         try {
           audio.pause();
+          audio.src = '';
         } catch (error) {
           console.error('Error during cleanup for character:', characterId, error);
         }
       });
     };
-  }, [audioMap]);
+  }, []);
   
   // Convert map to tracks array for compatibility
   const tracks = Array.from(audioMap.entries()).map(([characterId, audio]) => ({
