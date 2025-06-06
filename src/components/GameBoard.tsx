@@ -4,8 +4,7 @@ import { Character, Base } from '../types';
 import { Button } from '@/components/ui/button';
 import { useAudioSynchronizer } from '../hooks/useAudioSynchronizer';
 import { toast } from '@/components/ui/sonner';
-import { Mic, Volume2 } from 'lucide-react';
-import { Slider } from '@/components/ui/slider';
+import { Mic } from 'lucide-react';
 
 interface GameBoardProps {
   base: Base;
@@ -14,11 +13,9 @@ interface GameBoardProps {
 
 const GameBoard = ({ base, onBackToMenu }: GameBoardProps) => {
   const [activeCharacters, setActiveCharacters] = useState<Character[]>([]);
-  const [volume, setVolume] = useState([0.7]);
   const { 
     addTrack, 
     removeTrack,
-    setVolume: setAudioVolume,
     tracks
   } = useAudioSynchronizer();
   
@@ -26,10 +23,6 @@ const GameBoard = ({ base, onBackToMenu }: GameBoardProps) => {
     id: `placeholder-${index}`,
     position: index
   }));
-
-  useEffect(() => {
-    setAudioVolume(volume[0]);
-  }, [volume, setAudioVolume]);
 
   const handleAddCharacter = async (character: Character) => {
     console.log('Adding character:', character.name);
@@ -99,17 +92,6 @@ const GameBoard = ({ base, onBackToMenu }: GameBoardProps) => {
             ← Back to Menu
           </Button>
           <h1 className="text-2xl font-bold text-white">{base.name}</h1>
-        </div>
-        
-        <div className="flex items-center gap-3 w-48">
-          <Volume2 className="text-white" size={20} />
-          <Slider
-            className="w-full"
-            value={volume}
-            onValueChange={setVolume}
-            max={1}
-            step={0.01}
-          />
         </div>
       </div>
 

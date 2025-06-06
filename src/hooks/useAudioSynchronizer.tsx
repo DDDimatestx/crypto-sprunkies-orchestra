@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from 'react';
 import { Character } from '../types';
 import { toast } from '@/components/ui/sonner';
@@ -5,7 +6,7 @@ import { toast } from '@/components/ui/sonner';
 export function useAudioSynchronizer() {
   const [audioMap, setAudioMap] = useState<Map<string, HTMLAudioElement>>(new Map());
   const [isInitialized, setIsInitialized] = useState(false);
-  const audioMapRef = useRef<Map<string, HTMLAudioElement>>(new Map());
+  const audioElementsRef = useRef<Map<string, HTMLAudioElement>>(new Map());
 
   // Initialize audio context on first user interaction
   useEffect(() => {
@@ -23,128 +24,115 @@ export function useAudioSynchronizer() {
     };
   }, [isInitialized]);
 
-  // Keep a ref to the current audioMap to use in event listeners
-  useEffect(() => {
-    audioMapRef.current = audioMap;
-  }, [audioMap]);
-
   const addTrack = async (character: Character) => {
-    console.log('Adding track for character:', character.name, 'with audio:', character.audioTrack);
-    
-    // Check if track already exists
-    if (audioMap.has(character.id)) {
-      console.log('Track already exists for this character, skipping');
-      return;
-    }
+    console.log('Adding track for character:', character.name);
     
     try {
-      // Create new audio element for this character
+      // Check if we already have this character's audio playing
+      if (audioElementsRef.current.has(character.id)) {
+        console.log('Track already exists for', character.name);
+        return;
+      }
+      
+      // Create new audio element
       const audio = new Audio();
+      audio.src = character.audioTrack;
+      audio.loop = true;
       
-      // Set up event listeners before setting src
-      audio.addEventListener('canplaythrough', async () => {
-        console.log('Audio loaded and can play through for:', character.name);
-        try {
-          await audio.play();
-          console.log('Started playing audio for:', character.name);
-        } catch (playError) {
-          console.error('Error playing audio for:', character.name, playError);
-          toast.error(`Failed to play audio for ${character.name}`);
-        }
-      });
+      // Store in our ref map for immediate access
+      audioElementsRef.current.set(character.id, audio);
       
-      audio.addEventListener('error', (e) => {
+      // Add play event handler
+      const playHandler = () => {
+        console.log(`Playing audio for: ${character.name}`);
+      };
+      
+      const errorHandler = (e: Event) => {
         console.error(`Audio error for ${character.name}:`, e);
         toast.error(`Audio error for ${character.name}`);
         
-        // Remove from map on error
+        // Remove from maps on error
+        audioElementsRef.current.delete(character.id);
         setAudioMap(prev => {
           const newMap = new Map(prev);
           newMap.delete(character.id);
           return newMap;
         });
+      };
+      
+      // Add event listeners
+      audio.addEventListener('play', playHandler);
+      audio.addEventListener('error', errorHandler);
+      
+      // Play the audio
+      try {
+        await audio.play();
+      } catch (playError) {
+        console.error('Failed to play audio for:', character.name, playError);
+        toast.error(`Failed to play audio for ${character.name}`);
+        return;
+      }
+      
+      // Update state with the new audio only after successfully playing
+      setAudioMap(prev => {
+        const newMap = new Map(prev);
+        newMap.set(character.id, audio);
+        return newMap;
       });
       
-      // Set audio properties
-      audio.loop = true;
-      audio.volume = 0.7;
-      audio.preload = 'auto';
-      
-      // Add to map first, then set src to avoid race conditions
-      setAudioMap(prev => new Map(prev.set(character.id, audio)));
-      
-      // Now set the source
-      audio.src = character.audioTrack;
-      
-      console.log('Audio element created and added to map for:', character.name);
-      
+      console.log('Audio started playing for:', character.name);
     } catch (error) {
-      console.error('Error creating audio for:', character.name, error);
-      toast.error(`Error creating audio for ${character.name}`);
+      console.error('Error setting up audio for:', character.name, error);
+      toast.error(`Error setting up audio for ${character.name}`);
     }
   };
   
   const removeTrack = (characterId: string) => {
     console.log('Removing track for character ID:', characterId);
     
-    // Use the ref to get the current audio map
-    const audio = audioMapRef.current.get(characterId);
-    if (audio) {
-      try {
-        // First pause the audio
-        audio.pause();
-        
-        // Then remove all event listeners to prevent future callbacks
-        audio.oncanplaythrough = null;
-        audio.onerror = null;
-        audio.onended = null;
-        
-        // Reset the audio element
-        audio.currentTime = 0;
-        
-        console.log('Successfully stopped audio for character ID:', characterId);
-      } catch (error) {
-        console.error('Error stopping audio:', error);
-      }
+    // Get audio element from ref
+    const audioElement = audioElementsRef.current.get(characterId);
+    
+    if (audioElement) {
+      // Pause and reset the audio
+      audioElement.pause();
+      audioElement.currentTime = 0;
       
-      // Remove from map
+      // Remove event listeners to prevent memory leaks
+      audioElement.onplay = null;
+      audioElement.onerror = null;
+      
+      // Remove from both maps
+      audioElementsRef.current.delete(characterId);
       setAudioMap(prev => {
         const newMap = new Map(prev);
         newMap.delete(characterId);
         return newMap;
       });
+      
+      console.log('Successfully removed audio for character ID:', characterId);
     } else {
-      console.log('No audio found for character ID:', characterId);
+      console.warn('No audio found to remove for character ID:', characterId);
     }
-  };
-  
-  const setVolume = (volume: number) => {
-    console.log('Setting volume to:', volume);
-    
-    // Use the ref to get the current audio map
-    audioMapRef.current.forEach((audio, characterId) => {
-      try {
-        const safeVolume = Math.max(0, Math.min(1, volume));
-        audio.volume = safeVolume;
-        console.log('Volume set for character:', characterId, 'to:', audio.volume);
-      } catch (error) {
-        console.error('Error setting volume for character:', characterId, error);
-      }
-    });
   };
   
   // Clean up on unmount
   useEffect(() => {
     return () => {
-      console.log('Cleaning up audio synchronizer');
-      audioMapRef.current.forEach((audio, characterId) => {
+      console.log('Cleaning up all audio elements');
+      audioElementsRef.current.forEach((audio) => {
         try {
           audio.pause();
-          audio.src = '';
+          audio.onplay = null;
+          audio.onerror = null;
         } catch (error) {
-          console.error('Error during cleanup for character:', characterId, error);
+          console.error('Error during audio cleanup:', error);
         }
       });
+      
+      // Clear all maps
+      audioElementsRef.current.clear();
+      setAudioMap(new Map());
     };
   }, []);
   
@@ -159,7 +147,6 @@ export function useAudioSynchronizer() {
     tracks,
     addTrack,
     removeTrack,
-    setVolume,
     isPlaying: tracks.some(track => track.isPlaying)
   };
 }
