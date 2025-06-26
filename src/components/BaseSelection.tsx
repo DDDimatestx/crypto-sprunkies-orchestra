@@ -44,9 +44,6 @@ const BaseSelection = ({ bases, onSelectBase }: BaseSelectionProps) => {
               />
               <CardHeader className="p-3">
                 <CardTitle className="text-sm text-center leading-tight">{base.name}</CardTitle>
-                <CardDescription className="text-xs text-center">
-                  {base.characters.length} персонажей
-                </CardDescription>
               </CardHeader>
               <CardFooter className="p-2">
                 <Button 
@@ -54,7 +51,7 @@ const BaseSelection = ({ bases, onSelectBase }: BaseSelectionProps) => {
                   className="w-full text-xs h-7"
                   onClick={() => handleSelectBase(base)}
                 >
-                  {selectedBase?.id === base.id ? 'Выбрано' : 'Выбрать'}
+                  {selectedBase?.id === base.id ? 'Selected' : 'Select'}
                 </Button>
               </CardFooter>
             </Card>
@@ -67,7 +64,7 @@ const BaseSelection = ({ bases, onSelectBase }: BaseSelectionProps) => {
             disabled={!selectedBase}
             className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-8 py-6 rounded-xl text-xl"
           >
-            Начать игру с {selectedBase?.name || 'выбранной базой'}
+            Start Playing with {selectedBase?.name || 'Selected Base'}
           </Button>
         </div>
       </div>
