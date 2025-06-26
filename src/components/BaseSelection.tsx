@@ -27,7 +27,7 @@ const BaseSelection = ({ bases, onSelectBase }: BaseSelectionProps) => {
       <div className="w-full max-w-6xl">
         <h1 className="text-4xl font-bold text-center text-white mb-8">Choose Your Base</h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
           {bases.map((base) => (
             <Card 
               key={base.id}
@@ -39,43 +39,22 @@ const BaseSelection = ({ bases, onSelectBase }: BaseSelectionProps) => {
               onClick={() => handleSelectBase(base)}
             >
               <div 
-                className="h-40 bg-center bg-cover" 
+                className="h-16 bg-center bg-cover" 
                 style={{ backgroundImage: `url(${base.background})` }}
               />
-              <CardHeader>
-                <CardTitle>{base.name}</CardTitle>
-                <CardDescription>
-                  {base.characters.length} characters available
+              <CardHeader className="p-3">
+                <CardTitle className="text-sm text-center leading-tight">{base.name}</CardTitle>
+                <CardDescription className="text-xs text-center">
+                  {base.characters.length} персонажей
                 </CardDescription>
               </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-1">
-                  {base.characters.slice(0, 4).map((character) => (
-                    <div 
-                      key={character.id}
-                      className="w-10 h-10 rounded-full overflow-hidden bg-gray-200"
-                    >
-                      <img 
-                        src={character.image} 
-                        alt={character.name} 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  ))}
-                  {base.characters.length > 4 && (
-                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-xs">
-                      +{base.characters.length - 4}
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-              <CardFooter>
+              <CardFooter className="p-2">
                 <Button 
                   variant="outline"
-                  className="w-full"
+                  className="w-full text-xs h-7"
                   onClick={() => handleSelectBase(base)}
                 >
-                  {selectedBase?.id === base.id ? 'Selected' : 'Select Base'}
+                  {selectedBase?.id === base.id ? 'Выбрано' : 'Выбрать'}
                 </Button>
               </CardFooter>
             </Card>
@@ -88,7 +67,7 @@ const BaseSelection = ({ bases, onSelectBase }: BaseSelectionProps) => {
             disabled={!selectedBase}
             className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-8 py-6 rounded-xl text-xl"
           >
-            Start Playing with {selectedBase?.name || 'Selected Base'}
+            Начать игру с {selectedBase?.name || 'выбранной базой'}
           </Button>
         </div>
       </div>
