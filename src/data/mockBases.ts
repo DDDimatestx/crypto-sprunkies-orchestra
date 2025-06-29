@@ -27,7 +27,7 @@ export const mockBases: Base[] = [
       {
         id: 'char-4',
         name: 'BaNaBa',
-        image: '/characters/base-1/Banaba.png',
+        image: '/characters/base-1/BaNaBa.png',
         audioTrack: '/audio/base-1/base1_3.mp3',
       },
       {
