@@ -107,7 +107,7 @@ export const mockBases: Base[] = [
     {
       id: 'char-15',
         name: 'Mr. Doge',
-        image: '/characters/base-3/base3_Mr_Doge.png',
+        image: '/characters/base-3/Base3_Mr_Doge.png',
         audioTrack: '/audio/base-3/base3_2.mp3',
     },
     {
@@ -119,13 +119,13 @@ export const mockBases: Base[] = [
     {
       id: 'char-17',
         name: 'Pepos',
-        image: '/characters/base-3/base3_Pepos.png',
+        image: '/characters/base-3/Base3_Pepos.png',
         audioTrack: '/audio/base-3/base3_4.mp3',
     },
     {
       id: 'char-18',
         name: 'Wormi',
-        image: '/characters/base-3/base3_Wormi.png',
+        image: '/characters/base-3/Base3_Wormi.png',
         audioTrack: '/audio/base-3/base3_5.mp3',
     },
   ]
