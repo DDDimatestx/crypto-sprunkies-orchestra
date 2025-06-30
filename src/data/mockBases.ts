@@ -87,4 +87,18 @@ export const mockBases: Base[] = [
       },
     ],
   },
+  {
+  id: 'base-3',
+  name: 'Crypto forest',
+  background: '/backgrounds/base-3-bg.jpeg',
+  characters: [
+    {
+      id: 'char-13',
+        name: 'Suita',
+        image: '/characters/base-3/base2_inkoman.png',
+        audioTrack: '/audio/base-2/base2_5.mp3',
+    },
+    // Add more characters (up to 4 per base)
+  ]
+}
 ];
