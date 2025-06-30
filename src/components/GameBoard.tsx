@@ -87,7 +87,7 @@ const GameBoard = ({ base, onBackToMenu }: GameBoardProps) => {
           <Button 
             variant="outline" 
             onClick={onBackToMenu}
-            className="text-white border-white/50 hover:bg-blue/10"
+            className="text-white border-white/50 hover:bg-white/10"
           >
             ← Back to Menu
           </Button>
