@@ -95,10 +95,39 @@ export const mockBases: Base[] = [
     {
       id: 'char-13',
         name: 'Suita',
-        image: '/characters/base-3/base2_inkoman.png',
-        audioTrack: '/audio/base-2/base2_5.mp3',
+        image: '/characters/base-3/base3_Suite.png',
+        audioTrack: '/audio/base-3/base3_melody.mp3',
     },
-    // Add more characters (up to 4 per base)
+     {
+      id: 'char-15',
+        name: 'Astario',
+        image: '/characters/base-3/base3_Astario.png',
+        audioTrack: '/audio/base-3/base3_1.mp3',
+    },
+    {
+      id: 'char-16',
+        name: 'Mr. Doge',
+        image: '/characters/base-3/base3_Mr_Doge.png',
+        audioTrack: '/audio/base-3/base3_2.mp3',
+    },
+    {
+      id: 'char-17',
+        name: 'Mew Mew',
+        image: '/characters/base-3/base3_Mew_Mew.png',
+        audioTrack: '/audio/base-3/base3_3.mp3',
+    },
+    {
+      id: 'char-18',
+        name: 'Pepos',
+        image: '/characters/base-3/base3_Pepos.png',
+        audioTrack: '/audio/base-3/base3_4.mp3',
+    },
+    {
+      id: 'char-19',
+        name: 'Wormi',
+        image: '/characters/base-3/base3_Wormi.png',
+        audioTrack: '/audio/base-3/base3_5.mp3',
+    },
   ]
 }
 ];
