@@ -89,7 +89,7 @@ export const mockBases: Base[] = [
   },
   {
   id: 'base-3',
-  name: 'Crypto forest',
+  name: 'Crypto Forest',
   background: '/backgrounds/base-3-bg.jpeg',
   characters: [
     {
@@ -129,5 +129,48 @@ export const mockBases: Base[] = [
         audioTrack: '/audio/base-3/base3_5.mp3',
     },
   ]
-}
+  },
+  {
+    id: 'base-4',
+    name: 'Crypto Magic',
+    background: '/backgrounds/base-4-bg.jpeg',
+    characters: [
+      {
+        id: 'char-19',
+        name: 'Somnia',
+        image: '/characters/base-2/base4_somnia.png',
+        audioTrack: '/audio/base-2/base4_melody.mp3',
+      },
+      {
+        id: 'char-20',
+        name: 'Soneium',
+        image: '/characters/base-2/base4_soneium.png',
+        audioTrack: '/audio/base-2/base4_1.mp3',
+      },
+      {
+        id: 'char-21',
+        name: 'Virtuals',
+        image: '/characters/base-2/base4_virtuals.png',
+        audioTrack: '/audio/base-2/base4_2.mp3',
+      },
+      {
+        id: 'char-22',
+        name: 'Ritual',
+        image: '/characters/base-2/base4_ritual.png',
+        audioTrack: '/audio/base-2/base4_3.mp3',
+      },
+      {
+        id: 'char-23',
+        name: 'Zana',
+        image: '/characters/base-2/base4_zana.png',
+        audioTrack: '/audio/base-2/base4_4.mp3',
+      },
+      {
+        id: 'char-24',
+        name: 'Open Router',
+        image: '/characters/base-2/base4_openrouter.png',
+        audioTrack: '/audio/base-2/base4_5.mp3',
+      },
+    ],
+  }
 ];
