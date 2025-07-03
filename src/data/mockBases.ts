@@ -205,8 +205,8 @@ export const mockBases: Base[] = [
       {
         id: 'char-29',
         name: 'Steamonad',
-        image: '/characters/base-4/base5_5.png',
-        audioTrack: '/audio/base-4/base5_4.mp3',
+        image: '/characters/base-5/base5_5.png',
+        audioTrack: '/audio/base-5/base5_4.mp3',
       },
       {
         id: 'char-30',
