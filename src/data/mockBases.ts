@@ -172,5 +172,48 @@ export const mockBases: Base[] = [
         audioTrack: '/audio/base-4/base4_5.mp3',
       },
     ],
+  },
+  {
+    id: 'base-5',
+    name: 'Monad Station',
+    background: '/backgrounds/base-5-bg.jpeg',
+    characters: [
+      {
+        id: 'char-25',
+        name: 'Monad',
+        image: '/characters/base-5/base5_1.png',
+        audioTrack: '/audio/base-5/base5_melody.mp3',
+      },
+      {
+        id: 'char-26',
+        name: 'Mascot',
+        image: '/characters/base-5/base5_2.png',
+        audioTrack: '/audio/base-5/base5_1.mp3',
+      },
+      {
+        id: 'char-27',
+        name: 'Molandak',
+        image: '/characters/base-5/base5_3.png',
+        audioTrack: '/audio/base-5/base5_2.mp3',
+      },
+      {
+        id: 'char-28',
+        name: 'Monafrog',
+        image: '/characters/base-5/base5_4.png',
+        audioTrack: '/audio/base-5/base5_3.mp3',
+      },
+      {
+        id: 'char-29',
+        name: 'Steamonad',
+        image: '/characters/base-4/base5_5.png',
+        audioTrack: '/audio/base-4/base5_4.mp3',
+      },
+      {
+        id: 'char-30',
+        name: 'Monafish',
+        image: '/characters/base-5/base5_6.png',
+        audioTrack: '/audio/base-5/base5_5.mp3',
+      },
+    ],
   }
 ];
