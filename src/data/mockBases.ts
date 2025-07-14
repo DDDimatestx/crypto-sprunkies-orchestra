@@ -216,5 +216,48 @@ export const mockBases: Base[] = [
         audioTrack: '/cryptunki/audio/base-5/base5_5.mp3',
       },
     ],
+  },
+  {
+    id: 'base-6',
+    name: 'Abstract Ice Base',
+    background: '/cryptunki/backgrounds/base-6-bg.jpeg',
+    characters: [
+      {
+        id: 'char-31',
+        name: 'Cool Blue Pengu',
+        image: '/cryptunki/characters/base-6/base6_1.png',
+        audioTrack: '/cryptunki/audio/base-6/base6_melody.mp3',
+      },
+      {
+        id: 'char-32',
+        name: 'Polly',
+        image: '/cryptunki/characters/base-6/base6_2.png',
+        audioTrack: '/cryptunki/audio/base-6/base6_1.mp3',
+      },
+      {
+        id: 'char-33',
+        name: 'Blue Pengu',
+        image: '/cryptunki/characters/base-6/base6_3.png',
+        audioTrack: '/cryptunki/audio/base-6/base6_2.mp3',
+      },
+      {
+        id: 'char-34',
+        name: 'Abstractor',
+        image: '/cryptunki/characters/base-6/base6_4.png',
+        audioTrack: '/cryptunki/audio/base-6/base6_3.mp3',
+      },
+      {
+        id: 'char-35',
+        name: 'North Wind',
+        image: '/cryptunki/characters/base-6/base6_5.png',
+        audioTrack: '/cryptunki/audio/base-6/base6_4.mp3',
+      },
+      {
+        id: 'char-36',
+        name: 'Abster Biker',
+        image: '/cryptunki/characters/base-6/base6_6.png',
+        audioTrack: '/cryptunki/audio/base-6/base6_5.mp3',
+      },
+    ],
   }
 ];
