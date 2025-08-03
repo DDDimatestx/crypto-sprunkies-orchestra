@@ -259,5 +259,48 @@ export const mockBases: Base[] = [
         audioTrack: '/cryptunki/audio/base-6/base6_5.mp3',
       },
     ],
+  },
+    {
+    id: 'base-7',
+    name: 'Somnia Base',
+    background: '/cryptunki/backgrounds/base-7-bg.jpeg',
+    characters: [
+      {
+        id: 'char-37',
+        name: 'Somnexia',
+        image: '/cryptunki/characters/base-7/base7_1.png',
+        audioTrack: '/cryptunki/audio/base-7/base7_melody.mp3',
+      },
+      {
+        id: 'char-38',
+        name: 'Haifu',
+        image: '/cryptunki/characters/base-7/base7_2.png',
+        audioTrack: '/cryptunki/audio/base-7/base7_1.mp3',
+      },
+      {
+        id: 'char-39',
+        name: 'Saltinia',
+        image: '/cryptunki/characters/base-7/base7_3.png',
+        audioTrack: '/cryptunki/audio/base-7/base7_2.mp3',
+      },
+      {
+        id: 'char-40',
+        name: 'Mogui',
+        image: '/cryptunki/characters/base-7/base7_4.png',
+        audioTrack: '/cryptunki/audio/base-7/base7_3.mp3',
+      },
+      {
+        id: 'char-41',
+        name: 'Otomato',
+        image: '/cryptunki/characters/base-7/base7_5.png',
+        audioTrack: '/cryptunki/audio/base-7/base7_4.mp3',
+      },
+      {
+        id: 'char-42',
+        name: 'Quills',
+        image: '/cryptunki/characters/base-7/base7_6.png',
+        audioTrack: '/cryptunki/audio/base-7/base7_5.mp3',
+      },
+    ],
   }
 ];
