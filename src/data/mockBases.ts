@@ -302,5 +302,48 @@ export const mockBases: Base[] = [
         audioTrack: '/cryptunki/audio/base-7/base7_5.mp3',
       },
     ],
+  },
+    {
+    id: 'base-8',
+    name: 'Moonbirds',
+    background: '/cryptunki/backgrounds/base-8-bg.jpeg',
+    characters: [
+      {
+        id: 'char-43',
+        name: 'Master Moon',
+        image: '/cryptunki/characters/base-8/base8_1.png',
+        audioTrack: '/cryptunki/audio/base-8/base8_melody.mp3',
+      },
+      {
+        id: 'char-44',
+        name: 'Doctor Mystic',
+        image: '/cryptunki/characters/base-8/base8_2.png',
+        audioTrack: '/cryptunki/audio/base-8/base8_1.mp3',
+      },
+      {
+        id: 'char-45',
+        name: 'Mr. Birb',
+        image: '/cryptunki/characters/base-8/base8_3.png',
+        audioTrack: '/cryptunki/audio/base-8/base8_2.mp3',
+      },
+      {
+        id: 'char-46',
+        name: 'Shadow Coo',
+        image: '/cryptunki/characters/base-8/base8_4.png',
+        audioTrack: '/cryptunki/audio/base-8/base8_3.mp3',
+      },
+      {
+        id: 'char-47',
+        name: 'Midnight Gossiper',
+        image: '/cryptunki/characters/base-8/base8_5.png',
+        audioTrack: '/cryptunki/audio/base-8/base8_4.mp3',
+      },
+      {
+        id: 'char-48',
+        name: 'Oracle Beakman',
+        image: '/cryptunki/characters/base-8/base8_6.png',
+        audioTrack: '/cryptunki/audio/base-8/base8_5.mp3',
+      },
+    ],
   }
 ];
